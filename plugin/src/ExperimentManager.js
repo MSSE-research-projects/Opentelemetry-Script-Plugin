@@ -10,6 +10,7 @@ import TaskStep from './TaskStep';
 import PreSurveyStep from './PreSurveyStep';
 import IntroStep from './IntroStep';
 import FeedBackStep from './FeedBackStep';
+import {AlertInstrumentation} from "./instrumentations/alert";
 
 class ExperimentManager {
   steps = [];
@@ -67,6 +68,7 @@ class ExperimentManager {
     // Registering instrumentations
     registerInstrumentations({
       instrumentations: [
+          new AlertInstrumentation(),
         new UserInteractionInstrumentation({
           eventNames: ['click'],
         }),
