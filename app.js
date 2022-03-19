@@ -3,6 +3,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const dbInit = require("./db/db");
+
 var app = express();
 
 app.use(logger('dev'));
@@ -11,5 +13,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'static')));
 
+(async () => {
+    await dbInit();
+})();
 
 module.exports = app;
