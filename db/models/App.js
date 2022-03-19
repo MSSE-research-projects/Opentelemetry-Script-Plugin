@@ -6,6 +6,9 @@ const appSchema = new Schema({
         type: String, required: true
     },
     version: {
+        type: Number, required: true
+    },
+    host: {
         type: String, required: true
     },
     owner: {

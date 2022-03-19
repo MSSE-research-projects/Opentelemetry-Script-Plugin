@@ -9,7 +9,7 @@ const spanSchema = new Schema({
         type: String, required: true
     },
     attributes: {
-        type: String, required: true
+        type: Array, required: true
     },
     events: {
         type: Array, required: true, default: []
@@ -18,13 +18,16 @@ const spanSchema = new Schema({
         type: String, required: true
     },
     parentId: {
-        type: String, required: true
+        type: String
     },
     status: {
-        type: String, required: true
+        type: Schema.Types.Mixed, required: true
     },
-    timestamp: {
-        type: Number, required: true
+    startTime: {
+        type: Array, required: true
+    },
+    endTime: {
+        type: Array, required: true
     },
     traceId: {
         type: String, required: true

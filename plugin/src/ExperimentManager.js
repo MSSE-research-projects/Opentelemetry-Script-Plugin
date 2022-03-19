@@ -12,6 +12,7 @@ import FeedBackStep from './FeedBackStep';
 import {AlertInstrumentation} from "./instrumentations/alert";
 import {ErrorInstrumentation} from "./instrumentations/error";
 import {ServerExporter} from "./exporters/ServerExporter";
+import {ZoneContextManager} from "@opentelemetry/context-zone";
 
 class ExperimentManager {
   steps = [];
@@ -67,11 +68,10 @@ class ExperimentManager {
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
     provider.addSpanProcessor(new SimpleSpanProcessor(new ServerExporter(this.serverUrl)))
 
-    // we don't need any zone managers now
-    // provider.register({
-    //   // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
-    //   contextManager: new ZoneContextManager(),
-    // });
+    provider.register({
+      // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
+      contextManager: new ZoneContextManager(),
+    });
 
     // Registering instrumentations
     registerInstrumentations({
