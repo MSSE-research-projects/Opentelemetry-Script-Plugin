@@ -1,6 +1,5 @@
 import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 
@@ -12,9 +11,16 @@ import IntroStep from './IntroStep';
 import FeedBackStep from './FeedBackStep';
 import {AlertInstrumentation} from "./instrumentations/alert";
 import {ErrorInstrumentation} from "./instrumentations/error";
+import {ServerExporter} from "./exporters/ServerExporter";
+import {ZoneContextManager} from "@opentelemetry/context-zone";
 
 class ExperimentManager {
   steps = [];
+
+  /**
+   * modify variables below
+   */
+  serverUrl = "localhost:8000";
 
   displayFinished() {
     const TMP_STYLE = `
@@ -60,6 +66,7 @@ class ExperimentManager {
     this.steps[0].start();
     const provider = new WebTracerProvider();
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+    provider.addSpanProcessor(new SimpleSpanProcessor(new ServerExporter(this.serverUrl)))
 
     provider.register({
       // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
