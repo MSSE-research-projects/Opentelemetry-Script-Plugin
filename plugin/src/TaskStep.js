@@ -1,7 +1,5 @@
 import Step from './Step';
-
-const REMOTE_SERVER_URL = 'localhost';
-const REMOTE_SERVER_PORT = '80';
+import ExperimentManager from './ExperimentManager';
 
 function getCurrentTaskNum() {
   if (!localStorage.getItem('currentTask')) {
@@ -12,14 +10,14 @@ function getCurrentTaskNum() {
 
 function sendTaskEndSignal() {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", `http://${REMOTE_SERVER_URL}:${REMOTE_SERVER_PORT}/task-end`, true);
+  xhr.open("POST", `http://${ExperimentManager.serverUrl}/task-end`, true);
   xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
   xhr.send();
 }
 
 function sendTaskStartSignal() {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", `http://${REMOTE_SERVER_URL}:${REMOTE_SERVER_PORT}/task-start`, true);
+  xhr.open("POST", `http://${ExperimentManager.serverUrl}/task-start`, true);
   xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
   xhr.send();
 }

@@ -20,7 +20,7 @@ class ExperimentManager {
   /**
    * modify variables below
    */
-  serverUrl = "localhost:8000";
+  static serverUrl = "localhost:8000";
 
   displayFinished() {
     const TMP_STYLE = `
@@ -66,7 +66,7 @@ class ExperimentManager {
     this.steps[0].start();
     const provider = new WebTracerProvider();
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.addSpanProcessor(new SimpleSpanProcessor(new ServerExporter(this.serverUrl)))
+    provider.addSpanProcessor(new SimpleSpanProcessor(new ServerExporter(ExperimentManager.serverUrl)))
 
     provider.register({
       // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
