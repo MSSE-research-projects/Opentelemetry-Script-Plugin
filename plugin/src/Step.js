@@ -29,7 +29,9 @@ class Step {
   }
 
   destroy() {
-    this.block.remove();
+    if (this.block) {
+      this.block.remove();
+    }
     Step.removeLightbox();
   }
 
@@ -57,7 +59,9 @@ class Step {
 
   static removeLightbox() {
     const lb = document.getElementById('lightbox_background');
-    lb.parentNode.removeChild(lb);
+    if (lb) {
+      lb.parentNode.removeChild(lb);
+    }
   }
 
   static createLightbox() {
