@@ -1,6 +1,7 @@
 import Step from './Step';
-import ExperimentManager from './ExperimentManager';
+import { trace } from '@opentelemetry/api';
 
+const tracer = trace.getTracer("step-tracer", "0.1.0");
 function getCurrentTaskNum() {
   if (!localStorage.getItem('currentTask')) {
     return -1;
@@ -9,17 +10,23 @@ function getCurrentTaskNum() {
 }
 
 function sendTaskEndSignal() {
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", `http://${ExperimentManager.serverUrl}/task-end`, true);
-  xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-  xhr.send();
+  tracer.startSpan("task-end", {
+    attributes: {
+      event_type: "task",
+      "http.url": window.location.href,
+      "http.user_agent": navigator.userAgent,
+    },
+  });
 }
 
 function sendTaskStartSignal() {
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", `http://${ExperimentManager.serverUrl}/task-start`, true);
-  xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-  xhr.send();
+  tracer.startSpan("task-start", {
+    attributes: {
+      event_type: "task",
+      "http.url": window.location.href,
+      "http.user_agent": navigator.userAgent,
+    },
+  });
 }
 
 class TaskStep extends Step {
@@ -33,17 +40,17 @@ class TaskStep extends Step {
   promptTask(taskNum) {
     const background = Step.createLightbox();
     const task = this.tasks[taskNum - 1];
-    
+
     const beginButton = document.createElement('span');
     beginButton.onclick = this.beginTask.bind(this);
     beginButton.textContent='Begin Task';
-  
+
     const taskBlock = this.newTaskBlock({
       taskNum,
       button: beginButton,
       ...task,
     });
-    
+
     background.appendChild(taskBlock);
   }
 
@@ -52,7 +59,7 @@ class TaskStep extends Step {
     this.promptTask(parseInt(localStorage.getItem('currentTask') || '-1'));
   }
 
-  start() 
+  start()
   {
     this.display();
   }
@@ -72,12 +79,12 @@ class TaskStep extends Step {
   loadTaskComponents() {
     const buttonMenu = document.createElement("div");
     buttonMenu.className = 'during-task-block';
-  
+
     const helpButton = document.createElement("div");
     helpButton.className = 'task-help';
     helpButton.textContent = '?';
     helpButton.onclick = () => this.promptHelp(getCurrentTaskNum());
-  
+
     const finishTaskButton = document.createElement("div");
     finishTaskButton.className = 'finish-task-button';
     finishTaskButton.textContent = 'Finish Task';
@@ -87,7 +94,7 @@ class TaskStep extends Step {
         this.endTask(buttonMenu);
       }
     }
-  
+
     buttonMenu.appendChild(helpButton);
     buttonMenu.appendChild(finishTaskButton);
     document.body.appendChild(buttonMenu);
@@ -108,7 +115,7 @@ class TaskStep extends Step {
     const headSpanTwo = document.createElement("div");
     headSpanOne.textContent = `Task ${taskNum} out of ${this.tasks.length}`;
     headSpanTwo.textContent = taskTitle;
-  
+
     taskHeader.className = "task-block-header"
     taskHeader.appendChild(headSpanOne);
     taskHeader.appendChild(headSpanTwo);
@@ -129,20 +136,20 @@ class TaskStep extends Step {
     taskBlock.appendChild(taskBlockFooter);
     return taskBlock;
   }
-  
+
   promptHelp(taskNum) {
     const background = Step.createLightbox();
     const task = this.tasks[taskNum - 1]
     const returnButton = document.createElement('span');
     returnButton.onclick = Step.removeLightbox;
     returnButton.textContent='Return';
-  
+
     const taskBlock = this.newTaskBlock({
       taskNum,
       button: returnButton,
       ...task,
     });
-    
+
     background.appendChild(taskBlock);
   }
 }
