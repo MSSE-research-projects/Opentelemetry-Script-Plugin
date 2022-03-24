@@ -6,6 +6,7 @@ var cors = require('cors')
 const AppRouter = require("./routes/App");
 const SessionRouter = require("./routes/Session");
 const SpanRouter = require("./routes/Span");
+const SurveyRouter = require("./routes/Survey");
 
 const dbInit = require("./db/db");
 
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(`${apiRoot}/apps`, AppRouter);
 app.use(`${apiRoot}/sessions`, SessionRouter);
 app.use(`${apiRoot}/spans`, SpanRouter);
+app.use(`${apiRoot}/surveys`, SurveyRouter);
 
 (async () => {
     await dbInit();
