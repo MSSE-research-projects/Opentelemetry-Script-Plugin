@@ -1,5 +1,5 @@
 const express = require('express');
-const Survey = require('../db/models/Survey');
+const Survey = require('../db/mongo/models/Survey');
 const router = express.Router();
 
 
@@ -24,12 +24,12 @@ router.get('/:surveyId', async (req, res, next) => {
         message: "requested id does not exist"
       });
     };
-    
+
     res.json(data);
   } catch (error) {
     res.json({ error });
   }
-  
+
 });
 
 
@@ -47,7 +47,7 @@ router.post('/', async (req, res, next) => {
     const { code: mongoDBErrorCode } = error;
 
     if (mongoDBErrorCode == 11000) {
-      return res.json({ mongoDBErrorCode, message: "duplicate id" }); 
+      return res.json({ mongoDBErrorCode, message: "duplicate id" });
     }
     res.json({ mongoDBErrorCode, error });
   }

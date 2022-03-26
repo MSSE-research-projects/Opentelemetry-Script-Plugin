@@ -1,6 +1,6 @@
 const express = require('express');
-const App = require('../db/models/App');
-const Session = require('../db/models/Session');
+const App = require('../db/mongo/models/App');
+const Session = require('../db/mongo/models/Session');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {

@@ -1,5 +1,5 @@
 const express = require('express');
-const App = require('../db/models/App')
+const App = require('../db/mongo/models/App')
 const router = express.Router();
 
 router.get('/', (req, res, next) => {

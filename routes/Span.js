@@ -1,6 +1,6 @@
 const express = require('express');
-const Span = require('../db/models/Span');
-const Session = require('../db/models/Session');
+const Span = require('../db/mongo/models/Span');
+const Session = require('../db/mongo/models/Session');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
