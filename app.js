@@ -8,7 +8,8 @@ const SessionRouter = require("./routes/Session");
 const SpanRouter = require("./routes/Span");
 const SurveyRouter = require("./routes/Survey");
 
-const dbInit = require("./db/db");
+const mongoDbInit = require("./db/mongo/db");
+const sqliteDbInit = require("./db/sqlite/db").dbInit;
 
 var app = express();
 
@@ -27,7 +28,8 @@ app.use(`${apiRoot}/spans`, SpanRouter);
 app.use(`${apiRoot}/surveys`, SurveyRouter);
 
 (async () => {
-    await dbInit();
+    await mongoDbInit();
+    await sqliteDbInit();
 })();
 
 module.exports = app;
