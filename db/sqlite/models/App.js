@@ -17,12 +17,6 @@ App.init({
     },
     host: {
         type: DataTypes.STRING, allowNull: false
-    },
-    owner: {
-        type: DataTypes.STRING, allowNull: false
-    },
-    email: {
-        type: DataTypes.STRING, allowNull: false
     }
 }, {
     sequelize,
