@@ -11,6 +11,7 @@ const RecordRouter = require("./routes/Record");
 const SurveyQuestionRouter = require("./routes/SurveyQuestion");
 const PreSurveyAnswerRouter = require("./routes/PreSurveyAnswer");
 const PostSurveyAnswerRouter = require("./routes/PostSurveyAnswer");
+const FeedbackRouter = require("./routes/Feedback");
 
 const mongoDbInit = require("./db/mongo/db");
 const sqliteDbInit = require("./db/sqlite/db").dbInit;
@@ -33,6 +34,7 @@ app.use(`${apiRoot}/surveys`, SurveyRouter);
 app.use(`${apiRoot}/survey-questions`, SurveyQuestionRouter);
 app.use(`${apiRoot}/presurvey-answers`, PreSurveyAnswerRouter);
 app.use(`${apiRoot}/postsurvey-answers`, PostSurveyAnswerRouter);
+app.use(`${apiRoot}/feedback`, FeedbackRouter);
 app.use(`${apiRoot}/record`, RecordRouter);
 
 (async () => {
