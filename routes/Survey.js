@@ -1,5 +1,5 @@
 const express = require('express');
-const Survey = require('../db/mongo/models/Survey');
+const { Survey } = require('../db/mongo/models/Survey');
 const router = express.Router();
 
 
@@ -8,13 +8,13 @@ router.get('/:surveyId', async (req, res, next) => {
     const { surveyId } = req.params;
 
     const excludedFields = [
-      '__v', '_id', 'id', 'intro._id', 'preSurvey._id', 'preSurvey.questions._id',
-      'tasks._id', 'postSurvey._id', 'postSurvey.questions._id'
+      '__v', '_id', 'id', 'intro._id', 'preSurvey._id',
+      'tasks._id', 'postSurvey._id',
     ];
 
     const excludedSelections = excludedFields.map(field => '-' + field).join(' ')
 
-    const data = await Survey.findOne({ id: surveyId }).select(excludedSelections).exec();
+    const data = await Survey.findOne({ id: surveyId }).populate("preSurvey.questions postSurvey.questions").select(excludedSelections).exec();
 
     const allIds = await Survey.find().select('id -_id').exec();
 

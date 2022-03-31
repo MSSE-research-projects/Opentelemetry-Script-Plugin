@@ -1,3 +1,5 @@
+import axios from 'axios';
+import ExperimentManager from './ExperimentManager';
 import Step from './Step';
 import UI from './UI';
 import store from './redux-store/store'
@@ -17,7 +19,16 @@ class FinishedStep extends Step {
 
   collectSurveyAnswers() {
     const state = store.getState();
-    console.log(state);
+    axios
+      .post(`http://${ExperimentManager.serverUrl}/api/presurvey-answers`, state.presurvey)
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .post(`http://${ExperimentManager.serverUrl}/api/postsurvey-answers`, state.postsurvey)
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   start() {

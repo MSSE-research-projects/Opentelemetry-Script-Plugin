@@ -6,25 +6,28 @@ import { addPreSurvey, addPostSurvey } from "../redux-store/actions";
 class SurveyBlock extends React.Component {
   constructor() {
     super();
-    this.state = { answers: {} };
+    this.state = { answers: [] };
   }
 
-  updateQuestionAnswer(newAnswer) {
-    console.log(newAnswer)
+  updateQuestionAnswer(qid, selectedOption) {
     this.setState(prevState => ({
-      answers: {
+      answers: [
         ...prevState.answers,
-        ...newAnswer,
-      },
+        {
+          question: qid,
+          selectedOption,
+        }
+      ]
     }));
   };
 
   handleSurveyAnswers() {
+    const sessionId = window.sessionStorage.getItem("ux-test-olap-session");
     if (this.props.type === "pre-survey") {
-      this.props.addPreSurvey(this.state.answers);
+      this.props.addPreSurvey(sessionId, this.state.answers);
     }
     else if (this.props.type === "post-survey") {
-      this.props.addPostSurvey(this.state.answers);
+      this.props.addPostSurvey(sessionId, this.state.answers);
     }
   }
 

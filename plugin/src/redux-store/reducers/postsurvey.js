@@ -1,15 +1,16 @@
 import { ADD_POSTSURVEY } from "../actionTypes";
 
 const initialState = {
-  answers: {},
+  answers: [],
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_POSTSURVEY: {
-      const { answers } = action.payload;
+      const { sessionId, answers } = action.payload;
       return {
         ...state,
+        sessionId,
         answers,
       };
     }
