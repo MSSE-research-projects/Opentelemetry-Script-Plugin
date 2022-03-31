@@ -13,7 +13,7 @@ import {ErrorInstrumentation} from "./instrumentations/error";
 import {ServerExporter} from "./exporters/ServerExporter";
 import {ZoneContextManager} from "@opentelemetry/context-zone";
 import {ScrollInstrumentation} from "./instrumentations/scroll";
-import FinishedStep from './FinishedStep';
+import ExporterStep from './ExporterStep';
 
 class ExperimentManager {
   steps = [];
@@ -29,13 +29,13 @@ class ExperimentManager {
     const preSurveyStep = new PreSurveyStep(settings.preSurvey);
     const introStep = new IntroStep(settings.intro);
     const feedBackStep = new FeedBackStep();
-    const finishedStep = new FinishedStep();
+    const exporterStep = new ExporterStep();
 
-    this.steps = [introStep, preSurveyStep, taskStep, postSurveyStep, feedBackStep, finishedStep];
+    this.steps = [introStep, preSurveyStep, taskStep, postSurveyStep, feedBackStep, exporterStep];
     // this.steps = [preSurveyStep, postSurveyStep, feedBackStep];
 
     this.steps.forEach((step, i) => {
-      if (step != finishedStep) {
+      if (step != exporterStep) {
         step.setNextStep(this.steps[i + 1]);
       }
     });
