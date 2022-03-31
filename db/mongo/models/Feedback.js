@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const feedback = new Schema({
+  session: {
+    type: Schema.Types.ObjectId, ref: 'Session', required: true
+  },
   email: {
     type: String,
   },

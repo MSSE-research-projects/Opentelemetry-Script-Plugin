@@ -4,11 +4,11 @@ const router = express.Router();
 
 
 router.post('/', async (req, res, next) => {
-  const { email, content } = req.body;
+  const { sessionId, email, content } = req.body;
 
   try {
 
-    await Feedback.create({ email, content });
+    await Feedback.create({ session: sessionId, email, content });
 
     res.sendStatus(201);
 
