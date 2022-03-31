@@ -4,9 +4,9 @@ class QuestionOption extends React.Component {
   
   render() {
     const onclick = () => {
-      this.props.updateQuestionAnswer({
-        [this.props.qid]: this.props.option,
-      });
+      this.props.updateQuestionAnswer(
+        this.props.qid, this.props.option,
+      );
     }
 
     return (

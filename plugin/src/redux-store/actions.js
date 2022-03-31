@@ -8,16 +8,18 @@ export const addFeedback = (email, content) => ({
   },
 });
 
-export const addPreSurvey = answers => ({
+export const addPreSurvey = (sessionId, answers) => ({
   type: ADD_PRESURVEY,
   payload: {
+    sessionId,
     answers,
   },
 });
 
-export const addPostSurvey = answers => ({
+export const addPostSurvey = (sessionId, answers) => ({
   type: ADD_POSTSURVEY,
   payload: {
+    sessionId,
     answers,
   },
 });

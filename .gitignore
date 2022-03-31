@@ -4,3 +4,4 @@ node_modules/
 .vscode/
 plugin/dist/
 static/dist/
+dist/
