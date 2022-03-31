@@ -1,8 +1,9 @@
 import { ADD_FEEDBACK, ADD_PRESURVEY, ADD_POSTSURVEY } from "./actionTypes";
 
-export const addFeedback = (email, content) => ({
+export const addFeedback = (sessionId, email, content) => ({
   type: ADD_FEEDBACK,
   payload: {
+    sessionId,
     email,
     content,
   },

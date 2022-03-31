@@ -1,6 +1,7 @@
 import { ADD_FEEDBACK } from "../actionTypes";
 
 const initialState = {
+  sessionId: "",
   email: "",
   content: "",
 };
@@ -8,9 +9,10 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_FEEDBACK: {
-      const { email, content } = action.payload;
+      const { email, content, sessionId, } = action.payload;
       return {
         ...state,
+        sessionId,
         email,
         content,
       };

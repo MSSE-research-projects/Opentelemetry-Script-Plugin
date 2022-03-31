@@ -17,7 +17,9 @@ class FeedbackBlock extends React.Component {
   };
 
   handleFeedback() {
+    const sessionId = window.sessionStorage.getItem("ux-test-olap-session");
     this.props.addFeedback(
+      sessionId,
       this.state.email,
       this.state.content,
     );
