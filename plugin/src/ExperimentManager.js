@@ -1,4 +1,4 @@
-import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import {BatchSpanProcessor, ConsoleSpanExporter, SimpleSpanProcessor} from '@opentelemetry/sdk-trace-base';
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
@@ -13,6 +13,7 @@ import {AlertInstrumentation} from "./instrumentations/alert";
 import {ErrorInstrumentation} from "./instrumentations/error";
 import {ServerExporter} from "./exporters/ServerExporter";
 import {ZoneContextManager} from "@opentelemetry/context-zone";
+import {ScrollInstrumentation} from "./instrumentations/scroll";
 
 class ExperimentManager {
   steps = [];
@@ -66,7 +67,7 @@ class ExperimentManager {
     this.steps[0].start();
     const provider = new WebTracerProvider();
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.addSpanProcessor(new SimpleSpanProcessor(new ServerExporter(ExperimentManager.serverUrl)))
+    provider.addSpanProcessor(new BatchSpanProcessor(new ServerExporter(ExperimentManager.serverUrl)))
 
     provider.register({
       // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
@@ -78,8 +79,9 @@ class ExperimentManager {
       instrumentations: [
           new AlertInstrumentation(),
           new ErrorInstrumentation(),
+          new ScrollInstrumentation(),
         new UserInteractionInstrumentation({
-          eventNames: ['click', 'error'],
+          eventNames: ['click', 'error', 'scroll', 'input', 'submit'],
         }),
       ],
     });
