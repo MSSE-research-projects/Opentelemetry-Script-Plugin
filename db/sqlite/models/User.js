@@ -35,6 +35,8 @@ User.hasMany(App, {
         name: "owner",
         allowNull: false
     }
-})
+});
+
+App.belongsTo(User);
 
 module.exports = User;

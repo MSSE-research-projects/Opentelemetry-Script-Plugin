@@ -7,6 +7,7 @@ const AppRouter = require("./routes/App");
 const SessionRouter = require("./routes/Session");
 const SpanRouter = require("./routes/Span");
 const SurveyRouter = require("./routes/Survey");
+const RecordRouter = require("./routes/Record");
 
 const mongoDbInit = require("./db/mongo/db");
 const sqliteDbInit = require("./db/sqlite/db").dbInit;
@@ -26,6 +27,7 @@ app.use(`${apiRoot}/apps`, AppRouter);
 app.use(`${apiRoot}/sessions`, SessionRouter);
 app.use(`${apiRoot}/spans`, SpanRouter);
 app.use(`${apiRoot}/surveys`, SurveyRouter);
+app.use(`${apiRoot}/record`, RecordRouter);
 
 (async () => {
     await mongoDbInit();

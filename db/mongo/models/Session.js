@@ -7,6 +7,9 @@ const sessionSchema = new Schema({
     },
     ip: {
         type: String
+    },
+    isProcessed: {
+        type: Boolean, required: true, default: false
     }
 }, { timestamps: true });
 

@@ -1,12 +1,12 @@
 const { DataTypes, Model } = require('sequelize');
 const { sequelize } = require("../db");
+const SessionRecord = require("./SessionRecord");
 
 class App extends Model {}
 
 App.init({
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
         primaryKey: true
     },
     name: {
@@ -22,5 +22,13 @@ App.init({
     sequelize,
     modelName: 'App'
 });
+
+App.hasOne(SessionRecord, {
+    foreignKey: {
+        allowNull: false
+    }
+});
+
+SessionRecord.belongsTo(App);
 
 module.exports = App;
