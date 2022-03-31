@@ -1,11 +1,5 @@
 import Step from './Step';
-
-const TMP_STYLE = `
-    z-index: 9999999;
-    position: fixed;
-    background: white;
-    top: 40%;
-    width: 100%;`;
+import SurveyBlock  from './components/SurveyBlock';
 
 class PreSurveyStep extends Step {
   preSurvey;
@@ -13,61 +7,17 @@ class PreSurveyStep extends Step {
   constructor(preSurvey) {
     super();
     this.preSurvey = preSurvey;
-    this.clickButton.textContent = "Complete";
   }
 
-  buildQuestionBlock(question) {
-    const { description, isRequired, options } = question;
+  render() {
+    const props = {
+      title: this.preSurvey.title,
+      questions: this.preSurvey.questions,
+      callback: this.triggerNextStep.bind(this),
+      type: "pre-survey",
+    };
 
-    const desc = document.createElement("div");
-    desc.textContent = description;
-
-    if (isRequired) {
-      desc.textContent += '*';
-    }
-
-    const menu = document.createElement("div");
-    for (const option of options) {
-      const radiobox = document.createElement('input');
-      radiobox.type = 'radio';
-      radiobox.value = option;
-      const label = document.createElement('label');
-      label.textContent = option;
-      const newLine = document.createElement('br');
-  
-      const row = document.createElement("div")
-      row.appendChild(radiobox)
-      row.appendChild(label)
-      row.appendChild(newLine)
-
-      menu.appendChild(row);
-    }
-
-    const block = document.createElement("div");
-    block.appendChild(desc);
-    block.appendChild(menu);
-
-    return block;
-  }
-
-  buildBlock() {
-    const block = document.createElement("div");
-    const questionsBlock = document.createElement("div");
-    const title = document.createElement("div")
-    title.textContent = this.preSurvey.title;
-
-    for (const question of this.preSurvey.questions) {
-      const questionBlock = this.buildQuestionBlock(question);
-      questionsBlock.appendChild(questionBlock);
-    }
-
-    block.appendChild(title);
-    block.appendChild(questionsBlock);
-    block.appendChild(this.clickButton);
-
-    block.setAttribute('style', TMP_STYLE);
-
-    this.block = block;
+    this.renderComponent(SurveyBlock, props, this.rootElement);
   }
 }
 

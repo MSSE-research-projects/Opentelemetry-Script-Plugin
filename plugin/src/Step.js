@@ -1,78 +1,55 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux'
+import store from './redux-store/store';
+import UI from './UI';
+
+
+const ROOT_STYLE = `
+    z-index: 9999999;
+    position: fixed;
+    background: white;
+    top: 40%;
+    width: 100%;`;
+
 class Step {
   nextStep;
-  block;
-  clickButton;
-  nextFunc;
+  rootElement;
+  nodes = [];
 
   constructor() {
-    this.clickButton = document.createElement("button");
-    this.clickButton.textContent = "Done";
+    this.rootElement = UI.createRootElement();
+    document.body.appendChild(this.rootElement);
+  }
+
+  renderComponent(component, props, targetNode) {
+    const reactElement = React.createElement(component, props, null);
+    ReactDOM.createRoot(targetNode).render(<Provider store={store}>{reactElement}</Provider>);
+    this.nodes.push(targetNode);
+    return reactElement;
   }
 
   setNextStep(nextStep) {
     this.nextStep = nextStep;
   }
 
-  setNextFunction(func) {
-    this.nextFunc = func;
-  }
-
-  bindClickButton(callback) {
-    this.clickButton.onclick = () => {
-      callback();
-    }
-  }
-  
   start() {
-    this.bindClickButton(this.end.bind(this));
-    this.display();
+    this.render();
+    UI.createLightbox();
   }
 
   destroy() {
-    if (this.block) {
-      this.block.remove();
-    }
-    Step.removeLightbox();
+    this.rootElement.innerHTML = '';
+    UI.removeLightbox();
   }
 
-  buildBlock() {
+  render() {
     
   }
 
-  display() {
-    this.buildBlock();
-    Step.createLightbox();
-    if (this.block) {
-      document.body.appendChild(this.block);
-    }
-  }
-
-  end() {
+  triggerNextStep() {
     this.destroy();
-    if (this.nextFunc) {
-      this.nextFunc();
-    }
-    if (this.nextStep) {
-      this.nextStep.start();
-    }
-  }
-
-  static removeLightbox() {
-    const lb = document.getElementById('lightbox_background');
-    if (lb) {
-      lb.parentNode.removeChild(lb);
-    }
-  }
-
-  static createLightbox() {
-    const background = document.createElement('div');
-    background.id = "lightbox_background";
-    const lightbox = document.createElement('div');
-    lightbox.id = "lightbox";
-    
-    document.body.appendChild(background);
-    background.appendChild(lightbox);
-    return background;
+    this.nextStep.start();
   }
 }
 

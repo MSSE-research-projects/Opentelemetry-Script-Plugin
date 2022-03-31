@@ -1,4 +1,5 @@
 import Step from './Step';
+import UI from './UI';
 import { trace } from '@opentelemetry/api';
 
 const tracer = trace.getTracer("step-tracer", "0.1.0");
@@ -38,7 +39,7 @@ class TaskStep extends Step {
   }
 
   promptTask(taskNum) {
-    const background = Step.createLightbox();
+    const background = UI.createLightbox();
     const task = this.tasks[taskNum - 1];
 
     const beginButton = document.createElement('span');
@@ -54,25 +55,23 @@ class TaskStep extends Step {
     background.appendChild(taskBlock);
   }
 
-  display() {
-    localStorage.setItem('currentTask', '1');
-    this.promptTask(parseInt(localStorage.getItem('currentTask') || '-1'));
-  }
-
   start()
   {
-    this.display();
+    localStorage.setItem('currentTask', '1');
+    this.promptTask(parseInt(localStorage.getItem('currentTask') || '-1'));
   }
 
   endTask(buttonMenu) {
     sendTaskEndSignal();
     buttonMenu.parentNode.removeChild(buttonMenu);
     const nextTaskNum = getCurrentTaskNum() + 1;
+    console.log("lasttask")
     if (nextTaskNum <= this.tasks.length) {
       localStorage.setItem('currentTask', nextTaskNum.toString());
       this.promptTask(getCurrentTaskNum());
     } else {
-      this.end();
+      console.log("end")
+      this.triggerNextStep();
     }
   }
 
@@ -102,7 +101,7 @@ class TaskStep extends Step {
 
 
   beginTask() {
-    Step.removeLightbox();
+    UI.removeLightbox();
     sendTaskStartSignal();
     this.loadTaskComponents();
   }
@@ -138,10 +137,10 @@ class TaskStep extends Step {
   }
 
   promptHelp(taskNum) {
-    const background = Step.createLightbox();
+    const background = UI.createLightbox();
     const task = this.tasks[taskNum - 1]
     const returnButton = document.createElement('span');
-    returnButton.onclick = Step.removeLightbox;
+    returnButton.onclick = UI.removeLightbox;
     returnButton.textContent='Return';
 
     const taskBlock = this.newTaskBlock({

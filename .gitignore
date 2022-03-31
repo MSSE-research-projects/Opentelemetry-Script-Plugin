@@ -1,3 +1,6 @@
 .DS_Store
 static/instrumentation.js
 node_modules/
+.vscode/
+plugin/dist/
+static/dist/
