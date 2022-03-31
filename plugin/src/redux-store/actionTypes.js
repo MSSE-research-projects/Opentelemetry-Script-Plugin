@@ -1,0 +1,3 @@
+export const ADD_FEEDBACK = "ADD_FEEDBACK";
+export const ADD_PRESURVEY = "ADD_PRESURVEY";
+export const ADD_POSTSURVEY = "ADD_POSTSURVEY";

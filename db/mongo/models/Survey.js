@@ -12,13 +12,6 @@ const introductionSchema = new Schema({
   }
 });
 
-const questionSchema = new Schema({
-  description: String,
-  type: String,
-  isRequired: Boolean,
-  options: [String],
-});
-
 const infoQuestionSchema = new Schema({
   title: {
     type: String,
@@ -28,7 +21,9 @@ const infoQuestionSchema = new Schema({
     type: String,
     required: false,
   },
-  questions: [questionSchema],
+  questions: [{
+    type: Schema.Types.ObjectId, ref: 'SurveyQuestion', required: true
+  }],
 });
 
 const taskSchema = new Schema({
@@ -52,4 +47,4 @@ const surveySchema = new Schema({
 
 const Survey = model('Survey', surveySchema);
 
-module.exports = Survey;
+module.exports.Survey = Survey;
