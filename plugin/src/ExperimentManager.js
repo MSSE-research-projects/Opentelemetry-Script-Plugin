@@ -3,7 +3,6 @@ import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 
-import Step from './Step';
 import PostSurveyStep from './PostSurveyStep';
 import TaskStep from './TaskStep';
 import PreSurveyStep from './PreSurveyStep';
@@ -14,6 +13,7 @@ import {ErrorInstrumentation} from "./instrumentations/error";
 import {ServerExporter} from "./exporters/ServerExporter";
 import {ZoneContextManager} from "@opentelemetry/context-zone";
 import {ScrollInstrumentation} from "./instrumentations/scroll";
+import FinishedStep from './FinishedStep';
 
 class ExperimentManager {
   steps = [];
@@ -23,44 +23,22 @@ class ExperimentManager {
    */
   static serverUrl = "localhost:8000";
 
-  displayFinished() {
-    const TMP_STYLE = `
-    z-index: 9999999;
-    position: fixed;
-    background: white;
-    top: 40%;
-    width: 100%;`;
-    const title = document.createElement("div");
-    title.textContent = "Finishing Up";
-    const desc = document.createElement("div");
-    desc.textContent = "Thank you for participating!";
-
-    const block = document.createElement("div");
-    block.appendChild(title);
-    block.appendChild(desc);
-    block.setAttribute('style', TMP_STYLE);
-
-    Step.createLightbox();
-
-    document.body.appendChild(block);
-  }
-
   constructor(settings) {
     const postSurveyStep = new PostSurveyStep(settings.postSurvey);
     const taskStep = new TaskStep(settings.tasks);
     const preSurveyStep = new PreSurveyStep(settings.preSurvey);
     const introStep = new IntroStep(settings.intro);
     const feedBackStep = new FeedBackStep();
+    const finishedStep = new FinishedStep();
 
-    this.steps = [introStep, preSurveyStep, taskStep, postSurveyStep, feedBackStep];
+    this.steps = [introStep, preSurveyStep, taskStep, postSurveyStep, feedBackStep, finishedStep];
+    // this.steps = [preSurveyStep, postSurveyStep, feedBackStep];
 
-    for (let i = 0; i < this.steps.length; i += 1) {
-      if (i < this.steps.length - 1) {
-        this.steps[i].setNextStep(this.steps[i + 1]);
-      } else {
-        this.steps[i].setNextFunction(this.displayFinished);
+    this.steps.forEach((step, i) => {
+      if (step != finishedStep) {
+        step.setNextStep(this.steps[i + 1]);
       }
-    }
+    });
   }
 
   launch() {

@@ -1,12 +1,5 @@
 import Step from './Step';
-
-const TMP_STYLE = `
-    z-index: 9999999;
-    position: fixed;
-    background: white;
-    top: 40%;
-    width: 100%;`;
-
+import SurveyBlock  from './components/SurveyBlock';
 
 class PostSurveyStep extends Step {
   postSurvey;
@@ -14,53 +7,17 @@ class PostSurveyStep extends Step {
   constructor(postSurvey) {
     super();
     this.postSurvey = postSurvey;
-    this.clickButton.textContent = "Complete";
   }
 
-  buildQuestionBlock(question) {
-    const { description, isRequired, options } = question;
+  render() {
+    const props = {
+      title: this.postSurvey.title,
+      questions: this.postSurvey.questions,
+      callback: this.triggerNextStep.bind(this),
+      type: "post-survey",
+    };
 
-    const desc = document.createElement("div");
-    desc.textContent = description;
-
-    if (isRequired) {
-      desc.textContent +='*';
-    }
-
-    const menu = document.createElement("select");
-    for (const option of options) {
-      const opt = document.createElement('option');
-      opt.value = option;
-      opt.textContent = option;
-  
-      menu.appendChild(opt)
-    }
-
-    const block = document.createElement("div");
-    block.appendChild(desc);
-    block.appendChild(menu);
-
-    return block;
-  }
-
-  buildBlock() {
-    const block = document.createElement("div");
-    const questionsBlock = document.createElement("div");
-    const title = document.createElement("div")
-    title.textContent = this.postSurvey.title;
-
-    for (const question of this.postSurvey.questions) {
-      const questionBlock = this.buildQuestionBlock(question);
-      questionsBlock.appendChild(questionBlock);
-    }
-
-    block.appendChild(title);
-    block.appendChild(questionsBlock);
-    block.appendChild(this.clickButton);
-
-    block.setAttribute('style', TMP_STYLE);
-
-    this.block = block;
+    this.renderComponent(SurveyBlock, props, this.rootElement);
   }
 }
 
