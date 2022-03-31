@@ -16,7 +16,7 @@ function sendTaskEndSignal() {
       "http.url": window.location.href,
       "http.user_agent": navigator.userAgent,
     },
-  });
+  }).end();
 }
 
 function sendTaskStartSignal() {
@@ -26,7 +26,7 @@ function sendTaskStartSignal() {
       "http.url": window.location.href,
       "http.user_agent": navigator.userAgent,
     },
-  });
+  }).end();
 }
 
 class TaskStep extends Step {
