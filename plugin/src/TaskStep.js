@@ -1,5 +1,5 @@
 import Step from './Step';
-import Tasks from './components/Tasks';
+import Tasks from './components/task/Tasks';
 import { trace } from '@opentelemetry/api';
 
 const tracer = trace.getTracer("step-tracer", "0.1.0");

@@ -21,13 +21,13 @@ class Tasks extends React.Component {
   }
 
   endTask() {
+    const task = this.props.tasks[this.state.currentTask];
+    this.props.eachTaskEnd(task);
+
     if (this.state.currentTask >= this.props.tasks.length - 1) {
       this.props.lastTaskHasFinished();
       return;
     }
-
-    const task = this.props.tasks[this.state.currentTask];
-    this.props.eachTaskEnd(task);
 
     this.setState(prevState => ({
       ...prevState,
