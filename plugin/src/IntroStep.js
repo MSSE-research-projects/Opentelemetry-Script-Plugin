@@ -10,7 +10,11 @@ class IntroStep extends Step {
   }
 
   render() {
-    this.renderComponent(IntroBlock, { data: this.intro, callback: this.triggerNextStep.bind(this) }, this.rootElement);
+    const props = {
+      data: this.intro,
+      callback: this.triggerNextStep.bind(this)
+    };
+    this.renderComponent(IntroBlock, props, this.rootElement);
   }
 }
 
