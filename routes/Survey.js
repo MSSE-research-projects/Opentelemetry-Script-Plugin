@@ -8,13 +8,12 @@ router.get('/:surveyId', async (req, res, next) => {
     const { surveyId } = req.params;
 
     const excludedFields = [
-      '__v', '_id', 'id', 'intro._id', 'preSurvey._id',
-      'tasks._id', 'postSurvey._id',
+      '__v', '_id', 'id', 'intro._id', 'preSurvey._id','postSurvey._id',
     ];
 
     const excludedSelections = excludedFields.map(field => '-' + field).join(' ')
 
-    const data = await Survey.findOne({ id: surveyId }).populate("preSurvey.questions postSurvey.questions").select(excludedSelections).exec();
+    const data = await Survey.findOne({ id: surveyId }).populate("preSurvey.questions postSurvey.questions tasks").select(excludedSelections).exec();
 
     const allIds = await Survey.find().select('id -_id').exec();
 

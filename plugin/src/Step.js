@@ -4,14 +4,6 @@ import { Provider } from 'react-redux'
 import store from './redux-store/store';
 import UI from './UI';
 
-
-const ROOT_STYLE = `
-    z-index: 9999999;
-    position: fixed;
-    background: white;
-    top: 40%;
-    width: 100%;`;
-
 class Step {
   nextStep;
   rootElement;
