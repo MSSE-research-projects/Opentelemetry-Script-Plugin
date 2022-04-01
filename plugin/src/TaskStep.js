@@ -10,6 +10,7 @@ function sendTaskEndSignal({ _id: taskId }) {
       event_type: "task",
       "http.url": window.location.href,
       "http.user_agent": navigator.userAgent,
+      taskId,
     },
   }).end();
 }
@@ -20,6 +21,7 @@ function sendTaskStartSignal({ _id: taskId }) {
       event_type: "task",
       "http.url": window.location.href,
       "http.user_agent": navigator.userAgent,
+      taskId,
     },
   }).end();
 }
