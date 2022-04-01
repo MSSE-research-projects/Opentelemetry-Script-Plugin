@@ -32,7 +32,6 @@ class ExperimentManager {
     const exporterStep = new ExporterStep();
 
     this.steps = [introStep, preSurveyStep, taskStep, postSurveyStep, feedBackStep, exporterStep];
-    // this.steps = [preSurveyStep, postSurveyStep, feedBackStep];
 
     this.steps.forEach((step, i) => {
       if (step != exporterStep) {

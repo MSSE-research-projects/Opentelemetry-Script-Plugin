@@ -26,17 +26,13 @@ const infoQuestionSchema = new Schema({
   }],
 });
 
-const taskSchema = new Schema({
-  taskTitle: String,
-  scenario: String,
-  taskDesc: String,
-});
-
 
 const surveySchema = new Schema({
     intro: introductionSchema,
     preSurvey: infoQuestionSchema,
-    tasks: [taskSchema],
+    tasks: [{
+      type: Schema.Types.ObjectId, ref: 'SurveyTask', required: true
+    }],
     postSurvey: infoQuestionSchema,
     id: {
       type: String,

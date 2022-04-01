@@ -10,7 +10,7 @@ function getCurrentTaskNum() {
   return parseInt(localStorage.getItem('currentTask') || '-1');
 }
 
-function sendTaskEndSignal() {
+function sendTaskEndSignal({ _id: taskId }) {
   tracer.startSpan("task-end", {
     attributes: {
       event_type: "task",
@@ -20,7 +20,7 @@ function sendTaskEndSignal() {
   }).end();
 }
 
-function sendTaskStartSignal() {
+function sendTaskStartSignal({ _id: taskId }) {
   tracer.startSpan("task-start", {
     attributes: {
       event_type: "task",
@@ -62,7 +62,7 @@ class TaskStep extends Step {
   }
 
   endTask(buttonMenu) {
-    sendTaskEndSignal();
+    sendTaskEndSignal(this.tasks[getCurrentTaskNum()]);
     buttonMenu.parentNode.removeChild(buttonMenu);
     const nextTaskNum = getCurrentTaskNum() + 1;
     console.log("lasttask")
@@ -102,7 +102,7 @@ class TaskStep extends Step {
 
   beginTask() {
     UI.removeLightbox();
-    sendTaskStartSignal();
+    sendTaskStartSignal(this.tasks[getCurrentTaskNum()]);
     this.loadTaskComponents();
   }
 
