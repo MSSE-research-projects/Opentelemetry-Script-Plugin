@@ -1,5 +1,5 @@
 import Step from './Step';
-import Tasks from './components/Tasks';
+import Tasks from './components/task/Tasks';
 import { trace } from '@opentelemetry/api';
 
 const tracer = trace.getTracer("step-tracer", "0.1.0");
@@ -10,6 +10,7 @@ function sendTaskEndSignal({ _id: taskId }) {
       event_type: "task",
       "http.url": window.location.href,
       "http.user_agent": navigator.userAgent,
+      taskId,
     },
   }).end();
 }
@@ -20,6 +21,7 @@ function sendTaskStartSignal({ _id: taskId }) {
       event_type: "task",
       "http.url": window.location.href,
       "http.user_agent": navigator.userAgent,
+      taskId,
     },
   }).end();
 }

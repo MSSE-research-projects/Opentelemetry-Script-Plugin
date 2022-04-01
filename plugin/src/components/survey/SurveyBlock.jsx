@@ -1,7 +1,7 @@
 import React from 'react';
 import QuestionBlock from './QuestionBlock';
 import { connect } from "react-redux";
-import { addPreSurvey, addPostSurvey } from "../redux-store/actions";
+import { addPreSurvey, addPostSurvey } from "../../redux-store/actions";
 
 class SurveyBlock extends React.Component {
   constructor() {

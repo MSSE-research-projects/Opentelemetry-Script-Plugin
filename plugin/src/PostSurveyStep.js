@@ -1,5 +1,5 @@
 import Step from './Step';
-import SurveyBlock  from './components/SurveyBlock';
+import SurveyBlock  from './components/survey/SurveyBlock';
 
 class PostSurveyStep extends Step {
   postSurvey;
