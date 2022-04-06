@@ -1,6 +1,6 @@
 const Span = require("../db/mongo/models/Span");
 const Session = require("../db/mongo/models/Session");
-const SessionRecord = require("../db/sqlite/models/SessionRecord");
+const {App, SessionRecord} = require("../db/sqlite/models");
 
 class Aggregator {
 
@@ -29,30 +29,71 @@ class Aggregator {
             .lean()
             .exec();
 
-        const sessionAttributes = { appId: this.appId, sessionId: _id };
-        // TODO
+        const sessionAttributes = { appId: this.appId, sessionId: _id.toString() };
         const tasksAttributes = [];
+        let current = {};
 
         for (const span of spans) {
+            // can add more logic to handle different types of span
             switch (span.name) {
-
+                case "task-start":
+                    current = {
+                        ...sessionAttributes,
+                        taskStart: this.hrtimeToMilliseconds(span.startTime),
+                        taskEnd: null,
+                        taskId: span.attributes[0].taskId,
+                        alerts: 0,
+                        clicks: 0,
+                        back: 0,
+                        navigations: 0,
+                        pauses: 0,
+                        crashes: 0,
+                    };
+                    break;
+                case "task-end":
+                    current.taskEnd = this.hrtimeToMilliseconds(span.endTime)
+                    tasksAttributes.push(current);
+                    break;
+                case "alert":
+                    current.alerts++;
+                    break;
+                case "js-error":
+                    current.crashes++;
+                    break;
+                case "error":
+                    current.crashes++;
+                    break;
+                case "click":
+                    current.clicks++;
+                    break;
+                default:
+                    if (span.name.startsWith("Navigation")) {
+                        current.navigations++;
+                    }
+                    break;
             }
         }
-
-        await Session.findByIdAndUpdate(_id, { isProcessed: true });
 
         return tasksAttributes;
     }
 
     async saveSession(attributes) {
+        // await App.findOrCreate( { where: { id: this.appId }} );
         await SessionRecord.bulkCreate(attributes);
     }
 
     async run() {
         for (const session of this.sessions) {
+            const { _id } = session;
+            await Session.findByIdAndUpdate(_id, { processingStatus: 'PROCESSING' });
             const result = await this.aggregateSession(session);
             await this.saveSession(result);
+            await Session.findByIdAndUpdate(_id, { processingStatus: 'PROCESSED' });
         }
+    }
+
+    hrtimeToMilliseconds(hrtime) {
+        return Math.floor(hrtime[0] * 1000000 + hrtime[1] / 1000)
     }
 
 }

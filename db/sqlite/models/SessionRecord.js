@@ -5,8 +5,9 @@ class SessionRecord extends Model {}
 
 SessionRecord.init({
     id: {
-        type: DataTypes.UUID,
-        primaryKey: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     appId: {
         type: DataTypes.STRING, allowNull: false
@@ -14,16 +15,16 @@ SessionRecord.init({
     sessionId: {
         type: DataTypes.STRING, allowNull: false
     },
-    taskNumber: {
+    taskId: {
         type: DataTypes.STRING, allowNull: false
     },
     taskStart: {
         type: DataTypes.INTEGER, allowNull: false
     },
     taskEnd: {
-        type: DataTypes.INTEGER, allowNull: false
+        type: DataTypes.INTEGER,
     },
-    steps: {
+    alerts: {
         type: DataTypes.INTEGER, allowNull: false
     },
     clicks: {
@@ -48,5 +49,7 @@ SessionRecord.init({
     sequelize,
     modelName: 'SessionRecord'
 });
+
+SessionRecord.sync({ alter: true });
 
 module.exports = SessionRecord;

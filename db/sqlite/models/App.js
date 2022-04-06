@@ -23,13 +23,15 @@ App.init({
     modelName: 'App'
 });
 
-App.hasMany(SessionRecord, {
-    foreignKey: {
-        allowNull: false,
-        name: "appId"
-    }
-});
+// App.hasMany(SessionRecord, {
+//     foreignKey: {
+//         allowNull: false,
+//         name: "appId"
+//     }
+// });
+//
+// SessionRecord.belongsTo(App);
 
-SessionRecord.belongsTo(App);
+App.sync({ alter: true });
 
 module.exports = App;

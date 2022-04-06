@@ -4,8 +4,8 @@ const Aggregator = require("../utils/Aggregator");
 const router = express.Router();
 
 router.post('/:appId', (req, res, next) => {
-    const { appId } = req.query;
-    Session.find({ isProcessed: false })
+    const { appId } = req.params;
+    Session.find({ processingStatus: 'NOT_PROCESSED', app: appId })
         .exec()
         .then(sessions => {
             if (sessions.length === 0) {

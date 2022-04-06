@@ -30,13 +30,15 @@ User.init({
     modelName: 'User'
 });
 
-User.hasMany(App, {
-    foreignKey: {
-        name: "owner",
-        allowNull: false
-    }
-});
+// User.hasMany(App, {
+//     foreignKey: {
+//         name: "owner",
+//         allowNull: false
+//     }
+// });
+//
+// App.belongsTo(User);
 
-App.belongsTo(User);
+User.sync({ alter: true });
 
 module.exports = User;

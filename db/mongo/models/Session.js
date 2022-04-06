@@ -8,8 +8,8 @@ const sessionSchema = new Schema({
     ip: {
         type: String
     },
-    isProcessed: {
-        type: Boolean, required: true, default: false
+    processingStatus: {
+        type: String, required: true, default: 'NOT_PROCESSED', enum: ['NOT_PROCESSED', 'PROCESSING', 'PROCESSED']
     }
 }, { timestamps: true });
 
