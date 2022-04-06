@@ -23,6 +23,7 @@ App.init({
     modelName: 'App'
 });
 
+// TODO: add relationship back when we have enough data
 // App.hasMany(SessionRecord, {
 //     foreignKey: {
 //         allowNull: false,

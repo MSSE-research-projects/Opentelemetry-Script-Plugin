@@ -30,6 +30,7 @@ User.init({
     modelName: 'User'
 });
 
+// TODO: add relationship back when we have enough data
 // User.hasMany(App, {
 //     foreignKey: {
 //         name: "owner",
