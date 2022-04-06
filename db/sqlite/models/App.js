@@ -23,9 +23,10 @@ App.init({
     modelName: 'App'
 });
 
-App.hasOne(SessionRecord, {
+App.hasMany(SessionRecord, {
     foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: "appId"
     }
 });
 
