@@ -44,7 +44,8 @@ class FinishedStep extends Step {
   start() {
     this.displayFinishedWindow();
     this.exportSurveyAnswers();
-  } 
+    window.sessionStorage.removeItem("ux-test-olap-session");
+  }
 }
 
 export default FinishedStep;

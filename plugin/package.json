@@ -19,8 +19,8 @@
     "@opentelemetry/sdk-trace-base": "^1.0.1",
     "@opentelemetry/sdk-trace-web": "^1.0.1",
     "axios": "^0.26.1",
-    "lodash": "^4.17.21",
-    "js-md5": "^0.7.3"
+    "js-md5": "^0.7.3",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

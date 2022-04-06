@@ -44,7 +44,10 @@ class ExperimentManager {
     this.steps[0].start();
     const provider = new WebTracerProvider();
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.addSpanProcessor(new BatchSpanProcessor(new ServerExporter(ExperimentManager.serverUrl)))
+    provider.addSpanProcessor(new BatchSpanProcessor(new ServerExporter(ExperimentManager.serverUrl), {
+      exportTimeoutMillis: 2000,
+      maxExportBatchSize: 128
+    }))
 
     provider.register({
       // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
