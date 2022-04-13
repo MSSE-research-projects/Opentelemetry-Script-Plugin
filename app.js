@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
 const AppRouter = require("./routes/App");
+const UserRouter = require("./routes/User");
 const SessionRouter = require("./routes/Session");
 const SpanRouter = require("./routes/Span");
 const SurveyRouter = require("./routes/Survey");
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use(cors());
 
+app.use(`${apiRoot}/users`, UserRouter);
 app.use(`${apiRoot}/apps`, AppRouter);
 app.use(`${apiRoot}/sessions`, SessionRouter);
 app.use(`${apiRoot}/spans`, SpanRouter);
