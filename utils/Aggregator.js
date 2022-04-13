@@ -1,6 +1,6 @@
 const Span = require("../db/mongo/models/Span");
 const Session = require("../db/mongo/models/Session");
-const {App, SessionRecord} = require("../db/sqlite/models");
+const { App, SessionRecord } = require("../db/sqlite/db").sequelize.models;
 
 class Aggregator {
 

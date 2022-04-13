@@ -14,8 +14,6 @@ const PreSurveyAnswerRouter = require("./routes/PreSurveyAnswer");
 const PostSurveyAnswerRouter = require("./routes/PostSurveyAnswer");
 const FeedbackRouter = require("./routes/Feedback");
 
-const sqlite = require("./db/sqlite/models")
-
 const mongoDbInit = require("./db/mongo/db");
 const sqliteDbInit = require("./db/sqlite/db").dbInit;
 
