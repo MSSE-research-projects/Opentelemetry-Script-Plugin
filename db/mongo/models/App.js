@@ -10,14 +10,13 @@ const appSchema = new Schema({
     },
     host: {
         type: String, required: true
-    },
-    owner: {
-        type: String, required: true
-    },
-    email: {
-        type: String, required: true
     }
 }, { timestamps: true });
+
+appSchema.statics.findOrCreate = async function(app) {
+    const model = await this.findOne(app).exec();
+    return model ? model : await this.create(app);
+}
 
 const App = model('App', appSchema);
 

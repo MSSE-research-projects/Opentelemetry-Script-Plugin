@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING, allowNull: false
         },
         version: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING, allowNull: false
         },
         host: {
             type: DataTypes.STRING, allowNull: false

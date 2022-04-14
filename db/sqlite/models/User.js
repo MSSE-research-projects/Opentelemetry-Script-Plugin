@@ -23,6 +23,9 @@ module.exports = (sequelize) => {
         },
         email: {
             type: DataTypes.STRING, allowNull: false
+        },
+        token: {
+            type: DataTypes.STRING, allowNull: false
         }
     }, {
         sequelize,

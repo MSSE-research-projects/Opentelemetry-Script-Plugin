@@ -10,10 +10,12 @@ router.post('/register', async (req, res, next) => {
     const { username, password, firstName, lastName, email } = req.body;
     if (!username || !password || !firstName || !lastName || !email) {
         res.status(400).send("Must provide both username and password.");
+        return
     }
     const existingUser = await User.findOne({ where: { username }});
     if (existingUser) {
         res.status(401).send("Username is token.");
+        return
     }
     const hashedPassword = hash(password);
     // update in production mode
