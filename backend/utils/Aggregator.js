@@ -1,6 +1,6 @@
 const Span = require("../db/mongo/models/Span");
 const Session = require("../db/mongo/models/Session");
-const { App, SessionRecord } = require("../db/sqlite/db").sequelize.models;
+const { SessionRecord } = require("../db/sqlite/db").sequelize.models;
 
 class Aggregator {
 
@@ -29,7 +29,7 @@ class Aggregator {
             .lean()
             .exec();
 
-        const sessionAttributes = { appId: this.appId, sessionId: _id.toString() };
+        const sessionAttributes = { AppId: this.appId, sessionId: _id.toString() };
         const tasksAttributes = [];
         let current = {};
 
@@ -78,7 +78,6 @@ class Aggregator {
     }
 
     async saveSession(attributes) {
-        // await App.findOrCreate( { where: { id: this.appId }} );
         await SessionRecord.bulkCreate(attributes);
     }
 
