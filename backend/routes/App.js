@@ -21,7 +21,7 @@ router.post('/', auth, async (req, res, next) => {
 
 router.get('/', auth, async (req, res) => {
     const user = req.user;
-    const apps = App.findAll({ where: { userId: user.id } });
+    const apps = await App.findAll({ where: { UserId: user.id } });
     res.status(200).json(apps);
 })
 
