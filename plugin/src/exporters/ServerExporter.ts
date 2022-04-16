@@ -6,13 +6,15 @@ export class ServerExporter implements SpanExporter {
     url: string;
     sessionId: string;
     host: string;
+    private appId: string;
 
     readonly ENDPOINT_SESSION = "/sessions";
     readonly ENDPOINT_ROOT = "/api"
     readonly ENDPOINT_SPAN = "/spans";
 
-    constructor(url) {
+    constructor(url, appId) {
         this.url = url;
+        this.appId = appId;
 
         this.host = window.location.host;
 
@@ -39,7 +41,8 @@ export class ServerExporter implements SpanExporter {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    host: this.host
+                    host: this.host,
+                    appId: this.appId
                 })
             }).then(response => response.json());
             this.sessionId = res.id;

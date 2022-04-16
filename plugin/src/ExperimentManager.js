@@ -18,18 +18,13 @@ import ExporterStep from './ExporterStep';
 class ExperimentManager {
   steps = [];
 
-  /**
-   * modify variables below
-   */
-  static serverUrl = "localhost:8000";
-
-  constructor(settings) {
+  constructor(settings, config) {
     const postSurveyStep = new PostSurveyStep(settings.postSurvey);
     const taskStep = new TaskStep(settings.tasks);
     const preSurveyStep = new PreSurveyStep(settings.preSurvey);
     const introStep = new IntroStep(settings.intro);
     const feedBackStep = new FeedBackStep();
-    const exporterStep = new ExporterStep();
+    const exporterStep = new ExporterStep(config.serverUrl);
 
     this.steps = [introStep, preSurveyStep, taskStep, postSurveyStep, feedBackStep, exporterStep];
 
@@ -38,13 +33,15 @@ class ExperimentManager {
         step.setNextStep(this.steps[i + 1]);
       }
     });
+
+    this.config = config;
   }
 
   launch() {
     this.steps[0].start();
     const provider = new WebTracerProvider();
     provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.addSpanProcessor(new BatchSpanProcessor(new ServerExporter(ExperimentManager.serverUrl), {
+    provider.addSpanProcessor(new BatchSpanProcessor(new ServerExporter(this.config.serverUrl, this.config.appId), {
       exportTimeoutMillis: 2000,
       maxExportBatchSize: 128
     }))
