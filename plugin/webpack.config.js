@@ -40,5 +40,9 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../backend/static/plugin/'),
+    library: {
+      name: "instrumentation",
+      type: "umd"
+    }
   },
 };

@@ -4,9 +4,9 @@ const Session = require('../db/mongo/models/Session');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
-    const { host } = req.body;
+    const { appId } = req.body;
     const ip = req.header('x-forwarded-for') || req.socket.remoteAddress;
-    App.findOne({ host }).sort('-version').exec()
+    App.findById(appId).exec()
         .then(app => {
             Session.create({
                 app,
