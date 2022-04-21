@@ -1,11 +1,15 @@
 const express = require('express');
-const Session = require('../db/mongo/models/Session')
+const SessionMongo = require('../db/mongo/models/Session')
+const { SessionRecord } = require("../db/sqlite/db").sequelize.models;
 const Aggregator = require("../utils/Aggregator");
+const { Parser } = require('json2csv');
+const fs = require("fs");
+const path = require("path");
 const router = express.Router();
 
 router.post('/:appId', (req, res, next) => {
     const { appId } = req.params;
-    Session.find({ processingStatus: 'NOT_PROCESSED', app: appId })
+    SessionMongo.find({ processingStatus: 'NOT_PROCESSED', app: appId })
         .exec()
         .then(sessions => {
             if (sessions.length === 0) {
@@ -18,8 +22,14 @@ router.post('/:appId', (req, res, next) => {
         })
 });
 
-router.get('/:appId', (req, res) => {
-
+router.get('/:appId', async (req, res) => {
+    const { appId } = req.params;
+    const records = SessionRecord.findAll({ where: { AppId: appId }, raw: true });
+    const parser = new Parser({ header: true });
+    const csv = parser.parse(records);
+    const csvPath = path.join(__dirname, "..", "temp-output");
+    fs.writeFileSync(csvPath, csv);
+    res.download(csvPath);
 });
 
 module.exports = router;
