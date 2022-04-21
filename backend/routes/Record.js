@@ -24,7 +24,7 @@ router.post('/:appId', (req, res, next) => {
 
 router.get('/:appId', async (req, res) => {
     const { appId } = req.params;
-    const records = SessionRecord.findAll({ where: { AppId: appId }, raw: true });
+    const records = await SessionRecord.findAll({ where: { AppId: appId }, raw: true });
     const parser = new Parser({ header: true });
     const csv = parser.parse(records);
     const csvPath = path.join(__dirname, "..", "temp-output");
