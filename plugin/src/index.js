@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const cssId = 'lightbox-css-id';  // you could encode the css path itself to generate id..
 
-export const start = ({ serverUrl, appId }) => {
+export const start = ({ serverUrl, appId, surveyName }) => {
 
     if (!document.getElementById(cssId)) {
         const head = document.getElementsByTagName('head')[0];
@@ -17,7 +17,7 @@ export const start = ({ serverUrl, appId }) => {
     }
 
     axios
-        .get(`http://${serverUrl}/api/surveys/test`)
+        .get(`http://${serverUrl}/api/surveys/${surveyName}`)
         .then(({data: surveys}) => {
             console.log(surveys);
             new ExperimentManager(surveys, { serverUrl, appId }).launch();
