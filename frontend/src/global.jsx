@@ -1,5 +1,4 @@
 import { Button, message, notification } from 'antd';
-import { useIntl } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 const { pwa } = defaultSettings;
 const isHttps = document.location.protocol === 'https:';
@@ -72,18 +71,12 @@ if (pwa) {
           reloadSW();
         }}
       >
-        {useIntl().formatMessage({
-          id: 'app.pwa.serviceworker.updated.ok',
-        })}
+        pwa ok
       </Button>
     );
     notification.open({
-      message: useIntl().formatMessage({
-        id: 'app.pwa.serviceworker.updated',
-      }),
-      description: useIntl().formatMessage({
-        id: 'app.pwa.serviceworker.updated.hint',
-      }),
+      message: 'pwa updated',
+      description: 'pwa updated',
       btn,
       key,
       onClose: async () => null,

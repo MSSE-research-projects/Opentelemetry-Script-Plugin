@@ -5,13 +5,13 @@ import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-import { outLogin } from '@/services/ant-design-pro/api';
+import { deleteCredential } from '@/services/localStorage';
 
 /**
  * 退出登录，并且将当前的 url 保存
  */
-const loginOut = async () => {
-  await outLogin();
+const loginOut = () => {
+  deleteCredential();
   const { query = {}, search, pathname } = history.location;
   const { redirect } = query; // Note: There may be security issues, please note
 
@@ -32,9 +32,7 @@ const AvatarDropdown = ({ menu }) => {
       const { key } = event;
 
       setInitialState((s) => ({ ...s, currentUser: undefined }));
-      loginOut();
       return;
-
     },
     [setInitialState],
   );
@@ -64,7 +62,7 @@ const AvatarDropdown = ({ menu }) => {
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       <Menu.Item key="logout">
         <LogoutOutlined />
-        退出登录
+        Logout
       </Menu.Item>
     </Menu>
   );

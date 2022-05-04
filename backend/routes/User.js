@@ -2,6 +2,7 @@ const express = require('express');
 const { createHash } = require('crypto');
 const { User } = require("../db/sqlite/db").sequelize.models;
 const jwt = require('jsonwebtoken');
+const {auth} = require("./middlewares/auth");
 const router = express.Router();
 
 const hash = (pwd) => createHash('sha256').update(pwd).digest('hex');
@@ -44,5 +45,13 @@ router.post('/login', async (req, res, next) => {
         });
     }
 });
+
+router.get('/login', auth, async(req, res) => {
+    const user = req.user;
+    const { username, email, firstName, lastName, token } = user;
+    res.status(200).json({
+        firstName, lastName, email, username, token
+    });
+})
 
 module.exports = router;

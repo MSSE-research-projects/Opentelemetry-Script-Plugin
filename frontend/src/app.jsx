@@ -3,8 +3,9 @@ import { PageLoading } from '@ant-design/pro-layout';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { loginUserWithCredential as queryCurrentUser } from './services/backend/user';
 import defaultSettings from '../config/defaultSettings';
+import { getCredential } from "@/services/localStorage";
 const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
 
@@ -18,7 +19,8 @@ export const initialStateConfig = {
 export async function getInitialState() {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
+      const credential = getCredential();
+      const msg = await queryCurrentUser(credential);
       return msg.data;
     } catch (error) {
       history.push(loginPath);
