@@ -32,6 +32,7 @@ const AvatarDropdown = ({ menu }) => {
       const { key } = event;
 
       setInitialState((s) => ({ ...s, currentUser: undefined }));
+      loginOut();
       return;
     },
     [setInitialState],
@@ -54,7 +55,7 @@ const AvatarDropdown = ({ menu }) => {
 
   const { currentUser } = initialState;
 
-  if (!currentUser || !currentUser.name) {
+  if (!currentUser || !currentUser.firstName) {
     return loading;
   }
 
@@ -69,8 +70,8 @@ const AvatarDropdown = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+        <UserOutlined className={styles.avatar}/>
+        <span className={`${styles.name} anticon`}>{currentUser.firstName}</span>
       </span>
     </HeaderDropdown>
   );
