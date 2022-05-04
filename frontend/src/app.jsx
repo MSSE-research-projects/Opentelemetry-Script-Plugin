@@ -20,6 +20,10 @@ export async function getInitialState() {
   const fetchUserInfo = async () => {
     try {
       const credential = getCredential();
+      if (credential === null) {
+        history.push(loginPath);
+        return undefined;
+      }
       const msg = await queryCurrentUser(credential);
       return msg.data;
     } catch (error) {
