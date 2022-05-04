@@ -1,11 +1,11 @@
-import { SettingDrawer } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
-import { history, Link } from 'umi';
+import {PageLoading, SettingDrawer} from '@ant-design/pro-layout';
+import {history} from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { loginUserWithCredential as queryCurrentUser } from './services/backend/user';
+import {loginUserWithCredential as queryCurrentUser} from './services/backend/user';
 import defaultSettings from '../config/defaultSettings';
-import { getCredential } from "@/services/localStorage";
+import {getCredential} from "@/services/localStorage";
+
 const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
 
@@ -24,8 +24,7 @@ export async function getInitialState() {
         history.push(loginPath);
         return undefined;
       }
-      const msg = await queryCurrentUser(credential);
-      return msg.data;
+      return await queryCurrentUser(credential);
     } catch (error) {
       history.push(loginPath);
     }
@@ -53,7 +52,7 @@ export const layout = ({ initialState, setInitialState }) => {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.firstName,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

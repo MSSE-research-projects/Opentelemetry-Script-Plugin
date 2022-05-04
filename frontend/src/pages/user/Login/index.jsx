@@ -3,12 +3,13 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Alert, message } from 'antd';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
 import { history, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { loginUser } from '@/services/backend/user';
 import styles from './index.less';
+import {storeCredential} from "@/services/localStorage";
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -40,6 +41,7 @@ const Login = () => {
 
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = 'Login Succeeds';
+        storeCredential(msg.token)
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
 
@@ -50,10 +52,9 @@ const Login = () => {
         return;
       }
 
-      console.log(msg); // 如果失败去设置用户错误信息
-
-      setUserLoginState(msg);
+      setUserLoginState({ status: 'error' });
     } catch (error) {
+      console.log(error)
       const defaultLoginFailureMessage = 'Login Failed'
       message.error(defaultLoginFailureMessage);
     }

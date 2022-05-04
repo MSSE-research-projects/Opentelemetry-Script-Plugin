@@ -25,7 +25,7 @@ router.post('/register', async (req, res, next) => {
         username, email, password: hashedPassword, token, firstName, lastName
     });
     res.status(200).json({
-        firstName, lastName, email, username, token
+        firstName, lastName, email, username, token, status: "ok"
     });
 });
 
@@ -41,7 +41,7 @@ router.post('/login', async (req, res, next) => {
     } else {
         const { username, email, firstName, lastName, token } = existingUser;
         res.status(200).json({
-            firstName, lastName, email, username, token
+            firstName, lastName, email, username, token, status: "ok"
         });
     }
 });
@@ -50,7 +50,7 @@ router.get('/login', auth, async(req, res) => {
     const user = req.user;
     const { username, email, firstName, lastName, token } = user;
     res.status(200).json({
-        firstName, lastName, email, username, token
+        firstName, lastName, email, username, token, status: "ok"
     });
 })
 

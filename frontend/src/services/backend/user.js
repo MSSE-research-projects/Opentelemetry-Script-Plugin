@@ -26,7 +26,9 @@ export async function loginUser(body) {
 export async function loginUserWithCredential(credential) {
   return request(`${USER_ENDPOINT}/login`, {
     method: 'GET',
-    authorization: credential,
+    headers: {
+      authorization: credential
+    },
     errorHandler
   });
 }
