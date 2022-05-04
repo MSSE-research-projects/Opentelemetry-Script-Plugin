@@ -2,7 +2,7 @@ import {
   LockOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Alert, message, Tabs } from 'antd';
+import { Alert, message } from 'antd';
 import React, { useState } from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
 import { history, useModel } from 'umi';
@@ -36,7 +36,7 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       // 登录
-      const msg = await loginUser({ ...values, type });
+      const msg = await loginUser({ ...values });
 
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = 'Login Succeeds';
@@ -59,6 +59,7 @@ const Login = () => {
     }
   };
 
+  const { status } = userLoginState;
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -70,6 +71,12 @@ const Login = () => {
             await handleSubmit(values);
           }}
         >
+          {status === "error" && (
+            <LoginMessage
+              content="Invalid username or password."
+            />
+
+          )}
           <>
             <ProFormText
               name="username"
